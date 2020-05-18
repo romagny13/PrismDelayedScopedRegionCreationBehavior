@@ -71,7 +71,7 @@ public class MainWindowViewModel
 
 ## IRegionManagerAware
 
-> Implements this interface to get the RegionManager for the region scope.
+> To get the RegionManager for the region scope
 
 ```cs
 public class MainWindowViewModel : IRegionManagerAware

@@ -17,6 +17,7 @@ namespace PrismDelayedScopedRegionCreationBehavior
         {
             // replace DelayedRegionCreationBehavior (Prism) by DelayedScopedRegionCreationBehavior> for ServiceLocator/ ContainerLocator
             containerRegistry.Register<DelayedRegionCreationBehavior, DelayedScopedRegionCreationBehavior>();
+            containerRegistry.RegisterSingleton<IScopedRegionCollection, ScopedRegionCollection>();
             // Shell Service
             containerRegistry.RegisterSingleton<IShellService, ShellService>();
 
@@ -27,6 +28,7 @@ namespace PrismDelayedScopedRegionCreationBehavior
         {
             containerRegistry.RegisterForNavigation<ViewA>();
             containerRegistry.RegisterForNavigation<ViewB>();
+            containerRegistry.RegisterForNavigation<ViewC>();
         }
 
         protected override void ConfigureDefaultRegionBehaviors(IRegionBehaviorFactory regionBehaviors)

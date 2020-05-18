@@ -18,6 +18,9 @@ protected override void RegisterRequiredTypes(IContainerRegistry containerRegist
     // DelayedScopedRegionCreationBehavior
     containerRegistry.Register<DelayedRegionCreationBehavior, DelayedScopedRegionCreationBehavior>();
     
+    // ScopedRegionCollection
+    containerRegistry.RegisterSingleton<IScopedRegionCollection, ScopedRegionCollection>();
+    
     // Shell Service
     containerRegistry.RegisterSingleton<IShellService, ShellService>();
 
@@ -81,6 +84,35 @@ public class MainWindowViewModel : IRegionManagerAware
     public IRegionManager RegionManager { get; set; }
 }
 ```
+
+## ScopedRegionCollection
+
+> Allows to get all regions registered by region name
+
+```cs
+public class MainWindowViewModel 
+{
+    private IScopedRegionCollection scopedRegionCollection;
+
+    public MainWindowViewModel(IScopedRegionCollection scopedRegionCollection)
+    {
+        if (scopedRegionCollection is null)
+            throw new ArgumentNullException(nameof(scopedRegionCollection));
+
+        this.scopedRegionCollection = scopedRegionCollection;
+    }
+
+    // ...
+
+    private void ExecuteNavigateAllCommand(string target)
+    {
+        var regions = scopedRegionCollection["ContentRegion"];
+        foreach (var region in regions)
+            region.RequestNavigate(target);
+    }
+}
+```
+
 
  Resources:
 

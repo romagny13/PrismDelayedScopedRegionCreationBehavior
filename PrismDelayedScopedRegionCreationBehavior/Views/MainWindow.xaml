@@ -18,6 +18,7 @@
 
         <StackPanel Orientation="Horizontal" Grid.ColumnSpan="2">
             <Button Content="New Shell" Command="{Binding ShowShellCommand}" />
+            <Button Content="All View C" Command="{Binding NavigateAllCommand}" CommandParameter="ViewC?message=Parameter" />
         </StackPanel>
 
         <ContentControl prism:RegionManager.RegionName="ContentRegion" Grid.Row="1" />

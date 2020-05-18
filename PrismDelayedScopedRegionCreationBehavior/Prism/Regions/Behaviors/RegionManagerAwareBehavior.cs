@@ -63,4 +63,5 @@ namespace Prism.Regions.Behaviors
             return regionManager;
         }
     }
+
 }

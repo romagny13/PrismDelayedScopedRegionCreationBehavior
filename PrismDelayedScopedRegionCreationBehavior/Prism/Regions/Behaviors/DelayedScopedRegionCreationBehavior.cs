@@ -1,4 +1,5 @@
-﻿using Prism.Common;
+﻿using CommonServiceLocator;
+using Prism.Common;
 using System;
 using System.Windows;
 
@@ -6,16 +7,23 @@ namespace Prism.Regions.Behaviors
 {
     public class DelayedScopedRegionCreationBehavior : DelayedRegionCreationBehavior
     {
+        private IScopedRegionCollection scopedRegionCollection;
 
-        public DelayedScopedRegionCreationBehavior(RegionAdapterMappings regionAdapterMappings)
+        public DelayedScopedRegionCreationBehavior(RegionAdapterMappings regionAdapterMappings, IScopedRegionCollection scopedRegionCollection)
             : base(regionAdapterMappings)
         {
+            if (scopedRegionCollection is null)
+                throw new ArgumentNullException(nameof(scopedRegionCollection));
+
+            this.scopedRegionCollection = scopedRegionCollection;
         }
 
         protected override IRegion CreateRegion(DependencyObject targetElement, string regionName)
         {
             if (targetElement == null)
                 throw new ArgumentNullException(nameof(targetElement));
+            if (regionName is null)
+                throw new ArgumentNullException(nameof(regionName));
 
             IRegionManager regionManager = FindRegionManagerForScope(targetElement);
             if (ContainsRegionWithName(regionManager, regionName))
@@ -23,7 +31,28 @@ namespace Prism.Regions.Behaviors
 
             MvvmHelpers.ViewAndViewModelAction<IRegionManagerAware>(targetElement, v => v.RegionManager = regionManager);
 
-            return base.CreateRegion(targetElement, regionName);
+            IRegion region = base.CreateRegion(targetElement, regionName);
+
+            OnRegionCreated(targetElement, region);
+
+            return region;
+        }
+
+        protected virtual void OnRegionCreated(DependencyObject targetElement, IRegion region)
+        {
+            if (targetElement is null)
+                throw new ArgumentNullException(nameof(targetElement));
+            if (region is null)
+                throw new ArgumentNullException(nameof(region));
+
+            scopedRegionCollection.Add(region.Name, region);
+
+
+            IServiceLocator locator = ServiceLocator.Current;
+            var regionManagerDeletionBehavior = locator.GetInstance<ScopedRegionDeletionBehavior>();
+            regionManagerDeletionBehavior.TargetElement = targetElement;
+            regionManagerDeletionBehavior.Region = region;
+            regionManagerDeletionBehavior.Attach();
         }
 
         protected IRegionManager FindRegionManagerForScope(DependencyObject dependencyObject)

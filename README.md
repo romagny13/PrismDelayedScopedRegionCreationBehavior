@@ -5,14 +5,15 @@
 
 ## Initialization
 
-Register **DelayedScopedRegionCreationBehavior** in **Container**. ServiceLocator will return this behavior for **DelayedRegionCreationBehavior**
+Register **DelayedScopedRegionCreationBehavior** in **Container**
+...ServiceLocator will return this behavior for **DelayedRegionCreationBehavior**
 
 Register **ShellService** if we want to **show multiple shells**
 
 ```cs
 protected override void RegisterRequiredTypes(IContainerRegistry containerRegistry)
 {
-    // replace DelayedRegionCreationBehavior (Prism) by DelayedScopedRegionCreationBehavior for ServiceLocator/ ContainerLocator
+    // DelayedScopedRegionCreationBehavior
     containerRegistry.Register<DelayedRegionCreationBehavior, DelayedScopedRegionCreationBehavior>();
     
     // Shell Service
@@ -29,7 +30,6 @@ protected override void ConfigureDefaultRegionBehaviors(IRegionBehaviorFactory r
 {
     base.ConfigureDefaultRegionBehaviors(regionBehaviors);
    
-    // add RegionManagerAwareBehavior to resolve IRegionManagerAware for Views
     regionBehaviors.AddIfMissing(RegionManagerAwareBehavior.BehaviorKey, typeof(RegionManagerAwareBehavior));
 }
 ```

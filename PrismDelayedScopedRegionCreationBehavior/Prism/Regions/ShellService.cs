@@ -1,6 +1,5 @@
 ﻿using CommonServiceLocator;
 using Prism.Common;
-using System;
 using System.Windows;
 
 namespace Prism.Regions
@@ -16,35 +15,10 @@ namespace Prism.Regions
 
             RegionManager.SetRegionManager(window, regionManager);
 
-            //EventHandler updatingRegionsEventHandler = null;
-            //RoutedEventHandler loadedEventHandler = null;
-
-            //updatingRegionsEventHandler = (s, e) =>
-            //{
-            //    RegionManager.UpdatingRegions -= updatingRegionsEventHandler;
-            //    window.Loaded -= loadedEventHandler;
-
-            //};
-            //loadedEventHandler = (s, e) =>
-            //{
-            //    RegionManager.UpdatingRegions -= updatingRegionsEventHandler;
-            //    window.Loaded -= loadedEventHandler;
-
-            //    MvvmHelpers.ViewAndViewModelAction<IRegionManagerAware>(window, v => v.RegionManager = regionManager);
-            //};
-
-            //RegionManager.UpdatingRegions += updatingRegionsEventHandler;
-            //window.Loaded += loadedEventHandler;
-
             // try to Set IRegionManagerAware for Shell ViewModel
             MvvmHelpers.ViewAndViewModelAction<IRegionManagerAware>(window, v => v.RegionManager = regionManager);
 
             window.Show();
-        }
-
-        private static void SetRegionManagerAwareFor<T>(T window, IRegionManager regionManager) where T : Window
-        {
-            MvvmHelpers.ViewAndViewModelAction<IRegionManagerAware>(window, v => v.RegionManager = regionManager);
         }
     }
 }

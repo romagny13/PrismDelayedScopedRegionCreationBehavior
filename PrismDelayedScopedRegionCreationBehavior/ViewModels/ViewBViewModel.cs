@@ -1,16 +1,14 @@
-﻿using Prism.Commands;
-using Prism.Mvvm;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Prism.Regions;
 
 namespace PrismDelayedScopedRegionCreationBehavior.ViewModels
 {
-    public class ViewBViewModel : ViewModelBase
+    public class ViewBViewModel : ViewModelBase, IRegionMemberLifetime
     {
         public ViewBViewModel()
         {
             Title = "View B";
         }
+
+        public bool KeepAlive => false;
     }
 }

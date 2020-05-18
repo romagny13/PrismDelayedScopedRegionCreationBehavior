@@ -19,11 +19,6 @@ namespace PrismDelayedScopedRegionCreationBehavior.ViewModels
             Title = "Prism Application";
         }
 
-        internal void OnLoaded()
-        {
-            IRegion region = RegionManager.Regions["ContentRegion"]; // must be not null (DelayedScopedRegionCreationBehavior UpdatingRegions + Loaded)
-        }
-
         public IRegionManager RegionManager { get; set; }
 
         public DelegateCommand ShowShellCommand
@@ -35,6 +30,12 @@ namespace PrismDelayedScopedRegionCreationBehavior.ViewModels
                 return showShellCommand;
             }
         }
+
+        internal void OnLoaded()
+        {
+            IRegion region = RegionManager.Regions["ContentRegion"]; // must be not null (DelayedScopedRegionCreationBehavior UpdatingRegions + Loaded)
+        }
+
 
         private void ExecuteShowShellCommand()
         {

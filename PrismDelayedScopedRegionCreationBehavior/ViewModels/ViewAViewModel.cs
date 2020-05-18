@@ -1,7 +1,5 @@
 ﻿using Prism.Commands;
 using Prism.Regions;
-using System;
-using System.Diagnostics;
 
 namespace PrismDelayedScopedRegionCreationBehavior.ViewModels
 {
@@ -15,12 +13,6 @@ namespace PrismDelayedScopedRegionCreationBehavior.ViewModels
             Title = "View A";
         }
 
-        internal void OnLoaded()
-        {
-            IRegion region = RegionManager.Regions["ChildRegion"]; // must be not null (RegionManagerAwareBehavior)
-
-        }
-
         public IRegionManager RegionManager { get; set; }
 
         public DelegateCommand<string> ChildNavigationCommand
@@ -31,6 +23,12 @@ namespace PrismDelayedScopedRegionCreationBehavior.ViewModels
                     childNavigationCommand = new DelegateCommand<string>(ExecuteChildNavigationCommand);
                 return childNavigationCommand;
             }
+        }
+
+        internal void OnLoaded()
+        {
+            IRegion region = RegionManager.Regions["ChildRegion"]; // must be not null (RegionManagerAwareBehavior)
+
         }
 
         private void ExecuteChildNavigationCommand(string target)

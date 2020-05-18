@@ -4,6 +4,6 @@
              xmlns:prism="http://prismlibrary.com/"             
              prism:ViewModelLocator.AutoWireViewModel="True">
     <Grid>
-        <TextBlock Text="{Binding Title}" FontSize="32" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" />
+        <TextBlock Text="{Binding Title}" FontSize="32" HorizontalAlignment="Center" VerticalAlignment="Center" />
     </Grid>
 </UserControl>

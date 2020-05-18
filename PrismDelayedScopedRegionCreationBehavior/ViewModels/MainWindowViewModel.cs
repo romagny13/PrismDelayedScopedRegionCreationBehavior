@@ -1,26 +1,30 @@
 ﻿using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Regions;
 using PrismDelayedScopedRegionCreationBehavior.Views;
+using System;
 
 namespace PrismDelayedScopedRegionCreationBehavior.ViewModels
 {
-    public class MainWindowViewModel : BindableBase
+    public class MainWindowViewModel : ViewModelBase, IRegionManagerAware
     {
-        private string _title = "Prism Application";
+        private IShellService shellService;
         private DelegateCommand showShellCommand;
 
-        public MainWindowViewModel()
+        public MainWindowViewModel(IShellService shellService)
         {
+            if (shellService is null)
+                throw new ArgumentNullException(nameof(shellService));
 
+            this.shellService = shellService;
+            Title = "Prism Application";
         }
 
-        public string Title
+        internal void OnLoaded()
         {
-            get { return _title; }
-            set { SetProperty(ref _title, value); }
+            IRegion region = RegionManager.Regions["ContentRegion"]; // must be not null (DelayedScopedRegionCreationBehavior UpdatingRegions + Loaded)
         }
 
+        public IRegionManager RegionManager { get; set; }
 
         public DelegateCommand ShowShellCommand
         {
@@ -34,10 +38,7 @@ namespace PrismDelayedScopedRegionCreationBehavior.ViewModels
 
         private void ExecuteShowShellCommand()
         {
-            var window = new MainWindow();
-            RegionManager.SetRegionManager(window, new RegionManager());
-            window.Show();
+            shellService.ShowShell<MainWindow>();
         }
-
     }
 }

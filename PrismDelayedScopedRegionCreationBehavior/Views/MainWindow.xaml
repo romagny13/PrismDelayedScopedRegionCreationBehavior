@@ -11,6 +11,7 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
@@ -20,6 +21,8 @@
 
         <ContentControl prism:RegionManager.RegionName="ContentRegion" Grid.Row="1" />
 
-        <ContentControl prism:RegionManager.RegionName="ContentRegion"  Grid.Row="1"  Grid.Column="1"/>
+        <GridSplitter Grid.Row="1" Grid.Column="1" ResizeBehavior="PreviousAndNext" ShowsPreview="true" Width="5"/>
+
+        <ContentControl prism:RegionManager.RegionName="ContentRegion"  Grid.Row="1"  Grid.Column="2"/>
     </Grid>
 </Window>

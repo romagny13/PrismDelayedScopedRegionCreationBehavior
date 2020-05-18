@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using PrismDelayedScopedRegionCreationBehavior.ViewModels;
+using System.Windows.Controls;
 
 namespace PrismDelayedScopedRegionCreationBehavior.Views
 {
@@ -10,6 +11,13 @@ namespace PrismDelayedScopedRegionCreationBehavior.Views
         public ViewA()
         {
             InitializeComponent();
+
+            this.Loaded += ViewA_Loaded;
+        }
+
+        private void ViewA_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        {
+            (DataContext as ViewAViewModel).OnLoaded();
         }
     }
 }

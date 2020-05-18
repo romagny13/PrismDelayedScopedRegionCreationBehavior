@@ -1,24 +1,42 @@
 ﻿using Prism.Commands;
-using Prism.Mvvm;
+using Prism.Regions;
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Diagnostics;
 
 namespace PrismDelayedScopedRegionCreationBehavior.ViewModels
 {
-    public class ViewAViewModel : BindableBase
+
+    public class ViewAViewModel : ViewModelBase, IRegionManagerAware
     {
-        private string title;
+        private DelegateCommand<string> childNavigationCommand;
 
         public ViewAViewModel()
         {
-            title = "View A";
+            Title = "View A";
         }
 
-        public string Title
+        internal void OnLoaded()
         {
-            get { return title; }
-            set { SetProperty(ref title, value); }
+            IRegion region = RegionManager.Regions["ChildRegion"]; // must be not null (RegionManagerAwareBehavior)
+
+        }
+
+        public IRegionManager RegionManager { get; set; }
+
+        public DelegateCommand<string> ChildNavigationCommand
+        {
+            get
+            {
+                if (childNavigationCommand == null)
+                    childNavigationCommand = new DelegateCommand<string>(ExecuteChildNavigationCommand);
+                return childNavigationCommand;
+            }
+        }
+
+        private void ExecuteChildNavigationCommand(string target)
+        {
+            // use RegionManager injected
+            RegionManager.RequestNavigate("ChildRegion", target);
         }
     }
 }

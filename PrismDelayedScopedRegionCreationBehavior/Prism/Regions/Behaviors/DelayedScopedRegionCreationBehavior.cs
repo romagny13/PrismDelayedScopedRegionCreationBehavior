@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Prism.Common;
+using System;
 using System.Windows;
 
 namespace Prism.Regions.Behaviors
@@ -20,7 +21,9 @@ namespace Prism.Regions.Behaviors
             if (ContainsRegionWithName(regionManager, regionName))
                 regionManager = CreateRegionManagerForScope(targetElement);
 
-           return base.CreateRegion(targetElement, regionName);
+            MvvmHelpers.ViewAndViewModelAction<IRegionManagerAware>(targetElement, v => v.RegionManager = regionManager);
+
+            return base.CreateRegion(targetElement, regionName);
         }
 
         protected IRegionManager FindRegionManagerForScope(DependencyObject dependencyObject)

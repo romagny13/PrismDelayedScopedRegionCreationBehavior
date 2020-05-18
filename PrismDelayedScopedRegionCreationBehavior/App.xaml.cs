@@ -6,7 +6,6 @@ using System.Windows;
 
 namespace PrismDelayedScopedRegionCreationBehavior
 {
-
     public partial class App
     {
         protected override Window CreateShell()
@@ -16,13 +15,25 @@ namespace PrismDelayedScopedRegionCreationBehavior
 
         protected override void RegisterRequiredTypes(IContainerRegistry containerRegistry)
         {
+            // replace DelayedRegionCreationBehavior (Prism) by DelayedScopedRegionCreationBehavior> for ServiceLocator/ ContainerLocator
             containerRegistry.Register<DelayedRegionCreationBehavior, DelayedScopedRegionCreationBehavior>();
+            // Shell Service
+            containerRegistry.RegisterSingleton<IShellService, ShellService>();
+
             base.RegisterRequiredTypes(containerRegistry);
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterForNavigation<ViewA>();
+            containerRegistry.RegisterForNavigation<ViewB>();
+        }
+
+        protected override void ConfigureDefaultRegionBehaviors(IRegionBehaviorFactory regionBehaviors)
+        {
+            base.ConfigureDefaultRegionBehaviors(regionBehaviors);
+            // add RegionManagerAwareBehavior to resolve IRegionManagerAware for Views
+            regionBehaviors.AddIfMissing(RegionManagerAwareBehavior.BehaviorKey, typeof(RegionManagerAwareBehavior));
         }
 
         protected override void OnInitialized()
@@ -33,4 +44,5 @@ namespace PrismDelayedScopedRegionCreationBehavior
             regionManager.RegisterViewWithRegion("ContentRegion", typeof(ViewA));
         }
     }
+
 }

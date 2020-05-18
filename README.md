@@ -6,7 +6,9 @@
 ## Initialization
 
 Register **DelayedScopedRegionCreationBehavior** in **Container**
+
 ...ServiceLocator will return this behavior for **DelayedRegionCreationBehavior**
+
 
 Register **ShellService** if we want to **show multiple shells**
 
